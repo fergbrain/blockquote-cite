@@ -3,7 +3,7 @@
 Plugin Name: Blockquote Cite
 Plugin URI: http://www.andrewferguson.net/wordpress-plugins/
 Plugin Description: Adds citations for the blockquote tag with the cite value is set
-Version: 0.3.1
+Version: 0.4
 Author: Andrew Ferguson
 Author URI: http://www.andrewferguson.net
 
@@ -38,13 +38,22 @@ function fergcorp_blockquote_cite($theContent){
 }
 
 function fergcorp_blockquote($source){
+
 	$parsedURL = parse_url($source);
 	$host = split("\.", $parsedURL["host"]);
-	$i = count($host);
-	$domain = $host[$i-2].".".$host[$i-1];
-	if(file_exists(ABSPATH."/wp-content/plugins/fergcorp_blockquote/$domain.png"))
-		$img = "<img src=\"".get_bloginfo('url')."/wp-content/plugins/fergcorp_blockquote/$domain.png\" border=\"0\" align=\"left\" vspace=\"5\" hspace=\"5\" alt=\"From $domain\"/></a><br />";
-	else
+	$foundImage = false;
+	for($i = 0; $i < count($host)-1; $i++){
+		for($k = $i; $k < count($host); $k++){
+			$thisHost .= $host[$k].".";
+		}
+		if(file_exists(ABSPATH."/wp-content/plugins/fergcorp_blockquote/".$thisHost."png")){
+			$img = "<img src=\"".get_bloginfo('url')."/wp-content/plugins/fergcorp_blockquote/".$thisHost."png\" border=\"0\" align=\"left\" vspace=\"5\" hspace=\"5\" alt=\"From ".$parsedURL["host"]."\"/></a><br />";
+			$foundImage = true;
+			break; //Escape if we find the image
+		}
+		$thisHost = "";		
+	}
+	if(!$foundImage)
 		$img = "From ".$parsedURL["host"].":";
 	return "<a href=\"$source\">$img</a><blockquote>";
 }
