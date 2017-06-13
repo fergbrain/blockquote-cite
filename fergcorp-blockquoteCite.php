@@ -40,15 +40,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  *
  * Searches theContent for instances matching the required regex and runs the resulting finds through the fergcorp_blockquote function.
  *
- * @since 0.1 
+ * @since 0.1
  *
  * @see fergcorp_blockquote
- * @param string  $theContent Content of the post, as passed by the shortcode.
+ * @param string $theContent Content of the post, as passed by the shortcode.
  *
  * @return string Content of the post, filtered.
  */
-function fergcorp_blockquote_cite( $theContent ){
-	$theContent = preg_replace_callback( "/<blockquote cite[ ]?=[ ]?[\"|'](.*?)[\"|'][ ]?>/", "fergcorp_blockquote", $theContent );
+function fergcorp_blockquote_cite( $theContent ) {
+	$theContent = preg_replace_callback( "/<blockquote cite[ ]?=[ ]?[\"|'](.*?)[\"|'][ ]?>/", 'fergcorp_blockquote', $theContent );
 
 	return $theContent;
 }
@@ -58,35 +58,32 @@ function fergcorp_blockquote_cite( $theContent ){
  *
  * Parses the URL of the citation and returns additional information, either the base URL or a link to the image of the site.
  *
- * @since 0.1 
+ * @since 0.1
  *
- * @param string  $source Source URL.
+ * @param string $source Source URL.
  *
  * @return string Link to cited URL
  */
-function fergcorp_blockquote( $source ){
-	//var_dump($source);
+function fergcorp_blockquote( $source ) {
+	// var_dump($source);
 	$parsedURL = parse_url( $source[1] );
-	$host = explode( "\.", $parsedURL["host"] );
+	$host = explode( '\.', $parsedURL['host'] );
 	$foundImage = false;
-	for( $i = 0; $i < count( $host )-1; $i++ ){
-		for( $k = $i; $k < count( $host ); $k++ ){
-			$thisHost .= $host[$k].".";
+	for ( $i = 0; $i < count( $host ) -1; $i++ ) {
+		for ( $k = $i; $k < count( $host ); $k++ ) {
+			$thisHost .= $host[ $k ] . '.';
 		}
-		if( file_exists( dirname( __FILE__ )."/".$thisHost."png" ) ){
-			$img = "<img src=\"".get_bloginfo( 'url' )."/wp-content/plugins/".plugin_basename( dirname( __FILE__ ) )."/".$thisHost."png\" border=\"0\" align=\"left\" vspace=\"5\" hspace=\"5\" alt=\"From ".$parsedURL["host"]."\"/></a><br />";
+		if ( file_exists( dirname( __FILE__ ) . '/' . $thisHost . 'png' ) ) {
+			$img = '<img src="' . get_bloginfo( 'url' ) . '/wp-content/plugins/' . plugin_basename( dirname( __FILE__ ) ) . '/' . $thisHost . 'png" border="0" align="left" vspace="5" hspace="5" alt="From ' . $parsedURL['host'] . '"/></a><br />';
 			$foundImage = true;
-			break; //Escape if we find the image
+			break; // Escape if we find the image
 		}
-		$thisHost = "";		
+		$thisHost = '';
 	}
-	if( !$foundImage )
-		$img = "From ".$parsedURL["host"].":";
+	if ( ! $foundImage ) {
+		$img = 'From ' . $parsedURL['host'] . ':';
+	}
 	return "<a href=\"$source[1]\">$img</a><blockquote>";
 }
 
 add_filter( 'the_content', 'fergcorp_blockquote_cite', 1 );
-
-
-
-?>
