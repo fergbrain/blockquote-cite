@@ -1,6 +1,6 @@
 <?php
 /**
- * Class SampleTest
+ * Class Test_Fergcorp_Blockquote_Cite
  *
  * @package Blockquote_Cite
  */
@@ -8,7 +8,7 @@
 /**
  * Sample test case.
  */
-class SampleTest extends WP_UnitTestCase {
+class Test_Fergcorp_Blockquote_Cite extends WP_UnitTestCase {
 
 	/**
 	 * A single example test.
