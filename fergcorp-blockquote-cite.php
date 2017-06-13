@@ -43,14 +43,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * @since 0.1
  *
  * @see fergcorp_blockquote
- * @param string $theContent Content of the post, as passed by the shortcode.
+ * @param string $content Content of the post, as passed by the shortcode.
  *
  * @return string Content of the post, filtered.
  */
-function fergcorp_blockquote_cite( $theContent ) {
-	$theContent = preg_replace_callback( "/<blockquote cite[ ]?=[ ]?[\"|'](.*?)[\"|'][ ]?>/", 'fergcorp_blockquote', $theContent );
+function fergcorp_blockquote_cite( $content ) {
+	$content = preg_replace_callback( "/<blockquote cite[ ]?=[ ]?[\"|'](.*?)[\"|'][ ]?>/", 'fergcorp_blockquote', $content );
 
-	return $theContent;
+	return $content;
 }
 
 /**
@@ -65,23 +65,22 @@ function fergcorp_blockquote_cite( $theContent ) {
  * @return string Link to cited URL
  */
 function fergcorp_blockquote( $source ) {
-	// var_dump($source);
-	$parsedURL = parse_url( $source[1] );
-	$host = explode( '\.', $parsedURL['host'] );
-	$foundImage = false;
+	$parsed_url = wp_parse_url( $source[1] );
+	$host = explode( '\.', $parsed_url['host'] );
+	$found_image = false;
 	for ( $i = 0; $i < count( $host ) -1; $i++ ) {
 		for ( $k = $i; $k < count( $host ); $k++ ) {
-			$thisHost .= $host[ $k ] . '.';
+			$this_host .= $host[ $k ] . '.';
 		}
-		if ( file_exists( dirname( __FILE__ ) . '/' . $thisHost . 'png' ) ) {
-			$img = '<img src="' . get_bloginfo( 'url' ) . '/wp-content/plugins/' . plugin_basename( dirname( __FILE__ ) ) . '/' . $thisHost . 'png" border="0" align="left" vspace="5" hspace="5" alt="From ' . $parsedURL['host'] . '"/></a><br />';
-			$foundImage = true;
+		if ( file_exists( dirname( __FILE__ ) . '/' . $this_host . 'png' ) ) {
+			$img = '<img src="' . get_bloginfo( 'url' ) . '/wp-content/plugins/' . plugin_basename( dirname( __FILE__ ) ) . '/' . $this_host . 'png" border="0" align="left" vspace="5" hspace="5" alt="From ' . $parsed_url['host'] . '"/></a><br />';
+			$found_image = true;
 			break; // Escape if we find the image
 		}
-		$thisHost = '';
+		$this_host = '';
 	}
-	if ( ! $foundImage ) {
-		$img = 'From ' . $parsedURL['host'] . ':';
+	if ( ! $found_image ) {
+		$img = 'From ' . $parsed_url['host'] . ':';
 	}
 	return "<a href=\"$source[1]\">$img</a><blockquote>";
 }
