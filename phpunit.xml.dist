@@ -6,6 +6,9 @@
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
 	>
+	<php>
+	 <env name="PLUGIN_FILE" value="fergcorp-blockquote-cite.php"/>
+	</php>
 	<testsuites>
 		<testsuite>
 			<directory prefix="test-" suffix=".php">./tests/</directory>
