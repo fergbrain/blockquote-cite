@@ -2,9 +2,9 @@
 Contributors: fergbrain
 Donate link: http://www.andrewferguson.net/2007/03/08/general-note/
 Tags: blockquote, cite, citation
-Requires at least: 2.0
-Tested up to: 2.3
-Stable tag: 0.41
+Requires at least: 4.0
+Tested up to: 4.8
+Stable tag: 0.50
 
 Blockquote Cite allows you to add easily cite references when using the blockquote tag.
 

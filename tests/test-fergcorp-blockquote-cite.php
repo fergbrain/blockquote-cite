@@ -28,7 +28,12 @@ class Test_Fergcorp_Blockquote_Cite extends WP_UnitTestCase {
 		
 		$test_content = 'Lorem ipsum dolor sit amet, no mea dicit inermis alienum, eum minim moderatius ut. <blockquote cite="http://www.example.com/path/to/file">Sea eu antiopam theophrastus voluptatibus, cu modo dicat altera est.</blockquote> Has ad quidam moderatius, at tempor scripserit definitionem sit. Erat movet sensibus mei cu, ea mea harum vivendo singulis, inermis detracto mea ea. At nec solet definitionem, phaedrum maiestatis et mel.';
 		
-		$this->assertEquals($test_content, fergcorp_blockquote_cite( $test_content ) );
+		$assert_content = 'Lorem ipsum dolor sit amet, no mea dicit inermis alienum, eum minim moderatius ut. <a href="http://www.example.com/path/to/file">From www.example.com:</a><blockquote>Sea eu antiopam theophrastus voluptatibus, cu modo dicat altera est.</blockquote> Has ad quidam moderatius, at tempor scripserit definitionem sit. Erat movet sensibus mei cu, ea mea harum vivendo singulis, inermis detracto mea ea. At nec solet definitionem, phaedrum maiestatis et mel.';
+		
+		
+		
+		
+		$this->assertEquals($assert_content, fergcorp_blockquote_cite( $test_content ) );
 		
 	}
 }
