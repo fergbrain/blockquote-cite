@@ -2,7 +2,7 @@
 Contributors: fergbrain
 Donate link: http://www.andrewferguson.net/2007/03/08/general-note/
 Tags: blockquote, cite, citation
-Requires at least: 4.0
+Requires at least: 4.4
 Tested up to: 4.8
 Stable tag: 0.50
 
