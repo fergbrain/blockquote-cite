@@ -3,7 +3,7 @@
 Plugin Name: Blockquote Cite
 http://www.andrewferguson.net/wordpress-plugins/blockquote-cite/
 Plugin Description: Adds citations for the blockquote tag with the cite value
-Version: 0.41
+Version: 0.50
 Author: Andrew Ferguson
 Author URI: http://www.andrewferguson.net
 
@@ -13,7 +13,7 @@ The plugin uses a rather simple, and hopefully idiot proof, way to include image
 
 
 Blockquote Cite - Adds citations for the blockquote tag with the cite value is set
-Copyright (c) 2006 Andrew Ferguson
+Copyright (c) 2006-2017 Andrew Ferguson
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -32,14 +32,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
 function fergcorp_blockquote_cite($theContent){
-	$theContent = preg_replace("/<blockquote cite[ ]?=[ ]?[\"|'](.*?)[\"|'][ ]?>/e", "fergcorp_blockquote('$1')", $theContent);
+	$theContent = preg_replace_callback("/<blockquote cite[ ]?=[ ]?[\"|'](.*?)[\"|'][ ]?>/", "fergcorp_blockquote", $theContent);
 
 	return $theContent;
 }
 
 function fergcorp_blockquote($source){
-	$parsedURL = parse_url($source);
-	$host = split("\.", $parsedURL["host"]);
+	//var_dump($source);
+	$parsedURL = parse_url($source[1]);
+	$host = explode("\.", $parsedURL["host"]);
 	$foundImage = false;
 	for($i = 0; $i < count($host)-1; $i++){
 		for($k = $i; $k < count($host); $k++){
@@ -54,7 +55,7 @@ function fergcorp_blockquote($source){
 	}
 	if(!$foundImage)
 		$img = "From ".$parsedURL["host"].":";
-	return "<a href=\"$source\">$img</a><blockquote>";
+	return "<a href=\"$source[1]\">$img</a><blockquote>";
 }
 
 add_filter('the_content', 'fergcorp_blockquote_cite', 1);
