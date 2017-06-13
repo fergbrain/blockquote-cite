@@ -1,8 +1,11 @@
 <?php
 /**
+ * Adds citations for the blockquote tag with the cite value
+ *
  * @package Blockquote Cite
  * @version 0.50
  */
+
 /*
 Plugin Name: Blockquote Cite
 http://www.andrewferguson.net/wordpress-plugins/blockquote-cite/
@@ -68,14 +71,15 @@ function fergcorp_blockquote( $source ) {
 	$parsed_url = wp_parse_url( $source[1] );
 	$host = explode( '\.', $parsed_url['host'] );
 	$found_image = false;
-	for ( $i = 0; $i < count( $host ) -1; $i++ ) {
-		for ( $k = $i; $k < count( $host ); $k++ ) {
+	$hose_count = count( $host );
+	for ( $i = 0; $i < $hose_count -1; $i++ ) {
+		for ( $k = $i; $k < $hose_count; $k++ ) {
 			$this_host .= $host[ $k ] . '.';
 		}
 		if ( file_exists( dirname( __FILE__ ) . '/' . $this_host . 'png' ) ) {
 			$img = '<img src="' . get_bloginfo( 'url' ) . '/wp-content/plugins/' . plugin_basename( dirname( __FILE__ ) ) . '/' . $this_host . 'png" border="0" align="left" vspace="5" hspace="5" alt="From ' . $parsed_url['host'] . '"/></a><br />';
 			$found_image = true;
-			break; // Escape if we find the image
+			break; // Escape if we find the image.
 		}
 		$this_host = '';
 	}
